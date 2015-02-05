@@ -2,11 +2,7 @@ var app = angular.module('flapperNews', ['ui.router']);
 
 app.factory('posts', [function(){
 	var origin = {
-		post: [{title: 'post 1', upvotes: 5},
-		  {title: 'post 2', upvotes: 2},
-		  {title: 'post 3', upvotes: 15},
-		  {title: 'post 4', upvotes: 9},
-		  {title: 'post 5', upvotes: 4}]
+		post: []
 	};
 	return origin;
 }]);
@@ -57,11 +53,17 @@ app.controller('MainCtrl',[
 
 app.controller('PostsCtrl', [
 	'$scope',
+	'$log',
 	'$stateParams',
 	'posts',
-	function($scope, $stateParams, posts){
+	function($scope, $log, $stateParams, posts){
+		$scope.$log = $log;
+
 		$scope.post = posts.post[$stateParams.id];
 		$scope.addComment = function(){
+			$log.log($scope.post);
+			$log.log($stateParams.id);
+			$log.log(posts.post.comments);
 		  if($scope.body === '') { return; }
 		  $scope.post.comments.push({
 		    body: $scope.body,
