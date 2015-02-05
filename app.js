@@ -15,5 +15,8 @@ app.controller('MainCtrl',[
 			if(!$scope.title || $scope.title === ''){return;}
 			this.posts.push({title: $scope.title, upvotes: 0});
 			this.title = '';
-		}
+		};
+		$scope.incrementUpvotes = function(post) {
+			post.upvotes += 1;
+		};
 	}]);
