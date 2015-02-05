@@ -2,7 +2,11 @@ var app = angular.module('flapperNews', ['ui.router']);
 
 app.factory('posts', [function(){
 	var origin = {
-		post: []
+		post: [{title: 'post 1', upvotes: 5},
+		  {title: 'post 2', upvotes: 2},
+		  {title: 'post 3', upvotes: 15},
+		  {title: 'post 4', upvotes: 9},
+		  {title: 'post 5', upvotes: 4}]
 	};
 	return origin;
 }]);
@@ -30,14 +34,7 @@ app.controller('MainCtrl',[
 	'$scope',
 	'posts',
 	function($scope, posts){
-		$scope.posts = [
-		  {title: 'post 1', upvotes: 5},
-		  {title: 'post 2', upvotes: 2},
-		  {title: 'post 3', upvotes: 15},
-		  {title: 'post 4', upvotes: 9},
-		  {title: 'post 5', upvotes: 4}
-		];
-		$scope.test = "Hello world??!!?";
+		$scope.posts = posts.post;
 		$scope.addPost = function(){
 			if(!$scope.title || $scope.title === ''){return;}
 			$scope.posts.push({
@@ -55,7 +52,7 @@ app.controller('MainCtrl',[
 		$scope.incrementUpvotes = function(post) {
 			post.upvotes += 1;
 		};
-		$scope.posts = posts.posts;
+
 }]);
 
 app.controller('PostsCtrl', [
@@ -63,7 +60,7 @@ app.controller('PostsCtrl', [
 	'$stateParams',
 	'posts',
 	function($scope, $stateParams, posts){
-		$scope.post = posts.posts[$stateParams.id];
+		$scope.post = posts.post[$stateParams.id];
 		$scope.addComment = function(){
 		  if($scope.body === '') { return; }
 		  $scope.post.comments.push({
