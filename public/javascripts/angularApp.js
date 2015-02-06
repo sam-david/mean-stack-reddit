@@ -1,8 +1,13 @@
 var app = angular.module('flapperNews', ['ui.router']);
 
-app.factory('posts', [function(){
+app.factory('posts', ['$http',function($http){
 	var origin = {
 		post: []
+	};
+	origin.getAll = function() {
+		return $http.get('/posts').success(function(data){
+			angular.copy(data, origin.post);
+		});
 	};
 	return origin;
 }]);
@@ -15,7 +20,12 @@ app.config([
 			.state('home', {
 				url: '/home',
 				templateUrl: '/home.html',
-				controller: 'MainCtrl'
+				controller: 'MainCtrl',
+				resolve: {
+					postPromise: ['posts', function(posts){
+						return posts.getAll();
+					}]
+				}
 			});
 		$stateProvider
 			.state('posts', {
